@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zufriedenheitsbefragung | Thomas Berg Consulting & Service</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1A5276;
+            --primary-dark: #0E3D5C;
+            --primary-light: #2874A6;
+            --accent: #27AE60;
+            --accent-hover: #219A52;
+            --surface: #FAFBFC;
+            --surface-elevated: #FFFFFF;
+            --text-primary: #1A1A2E;
+            --text-secondary: #5A6C7D;
+            --text-muted: #8B9AAB;
+            --border: #E1E8ED;
+            --border-focus: #2874A6;
+            --success: #27AE60;
+            --warning: #F39C12;
+            --error: #E74C3C;
+            --shadow-sm: 0 1px 3px rgba(26, 82, 118, 0.08);
+            --shadow-md: 0 4px 12px rgba(26, 82, 118, 0.12);
+            --shadow-lg: 0 8px 30px rgba(26, 82, 118, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F0F4F8 0%, #E8EEF4 50%, #F5F7FA 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Decorative Background Elements */
+        .bg-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-circle-1 {
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26, 82, 118, 0.04) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .bg-circle-2 {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(39, 174, 96, 0.05) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--surface-elevated);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .logo-text span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 0.85rem;
+            display: block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(26, 82, 118, 0.1) 100%);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(26, 82, 118, 0.15);
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--surface-elevated);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        @media (max-width: 600px) {
+            .form-card {
+                padding: 1.5rem;
+                border-radius: var(--radius-md);
+            }
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-section:last-of-type {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        label .required {
+            color: var(--error);
+            margin-left: 2px;
+        }
+
+        /* Input Fields */
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--surface);
+            transition: all 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            background: var(--surface-elevated);
+            box-shadow: 0 0 0 4px rgba(40, 116, 166, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235A6C7D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        /* Rating Scale */
+        .rating-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .rating-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .rating-scale {
+            display: flex;
+            gap: 0;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            border: 2px solid var(--border);
+        }
+
+        .rating-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .rating-option input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .rating-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0;
+            background: transparent;
+        }
+
+        .rating-option label .number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .rating-option label .text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 2px;
+            transition: color 0.2s ease;
+        }
+
+        .rating-option input:checked + label {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .rating-option input:checked + label .number,
+        .rating-option input:checked + label .text {
+            color: white;
+        }
+
+        .rating-option input:hover + label {
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .rating-option input:checked:hover + label {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+        }
+
+        /* Scale Legend */
+        .scale-legend {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            padding: 0 0.25rem;
+        }
+
+        .scale-legend span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Yes/No Toggle */
+        .toggle-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .toggle-option {
+            position: relative;
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .toggle-option input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .toggle-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.875rem 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--surface);
+            margin: 0;
+        }
+
+        .toggle-option input:checked + label {
+            border-color: var(--accent);
+            background: rgba(39, 174, 96, 0.08);
+            color: var(--accent);
+        }
+
+        .toggle-option label svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .toggle-option input:checked + label svg {
+            opacity: 1;
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .checkbox-item {
+            position: relative;
+        }
+
+        .checkbox-item input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .checkbox-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--surface);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-item label .check-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox-item label .check-icon svg {
+            width: 12px;
+            height: 12px;
+            opacity: 0;
+            color: white;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkbox-item input:checked + label {
+            border-color: var(--accent);
+            background: rgba(39, 174, 96, 0.08);
+        }
+
+        .checkbox-item input:checked + label .check-icon {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .checkbox-item input:checked + label .check-icon svg {
+            opacity: 1;
+        }
+
+        /* Submit Button */
+        .submit-section {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.125rem 2rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Privacy Note */
+        .privacy-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .privacy-note svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.5s ease-out 0.2s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .success-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .success-message p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Form Hidden State */
+        .form-content.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .rating-option label .text {
+                display: none;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .toggle-group {
+                flex-direction: row;
+            }
+            
+            .toggle-option {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Decorations -->
+    <div class="bg-decoration bg-circle-1"></div>
+    <div class="bg-decoration bg-circle-2"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="https://tbcs-beratung.de" class="logo">
+                <div class="logo-icon">TB</div>
+                <div class="logo-text">
+                    Thomas Berg
+                    <span>Consulting & Service</span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Ihre Meinung ist uns wichtig
+            </div>
+            <h1>Zufriedenheitsbefragung</h1>
+            <p>Helfen Sie uns, unsere Beratungsleistungen kontinuierlich zu verbessern. Ihre Rückmeldung ist anonym und wird vertraulich behandelt.</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card">
+            <!-- Success Message (hidden by default) -->
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h2>Vielen Dank!</h2>
+                <p>Ihre Bewertung wurde erfolgreich übermittelt. Wir schätzen Ihr Feedback sehr und werden es nutzen, um unsere Leistungen weiter zu verbessern.</p>
+            </div>
+
+            <!-- Form Content -->
+            <form id="surveyForm" class="form-content" action="https://formsubmit.co/info@tbcs-beratung.de" method="POST">
+                <!-- FormSubmit Configuration -->
+                <input type="hidden" name="_subject" value="Neue Zufriedenheitsbefragung eingegangen">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" id="redirectUrl">
+                
+                <!-- Section 1: Unternehmensdaten -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">1</div>
+                        <h2 class="section-title">Angaben zum Unternehmen</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Unternehmensname <span class="required">*</span></label>
+                        <input type="text" id="company" name="Unternehmen" required placeholder="Ihr Unternehmensname">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consultingDate">Beratungszeitraum</label>
+                        <input type="text" id="consultingDate" name="Beratungszeitraum" placeholder="z.B. März 2025">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consultingTopic">Beratungsschwerpunkt</label>
+                        <select id="consultingTopic" name="Beratungsschwerpunkt">
+                            <option value="">Bitte wählen...</option>
+                            <option value="Prozessoptimierung">Prozessoptimierung</option>
+                            <option value="Digitalisierung">Digitalisierung</option>
+                            <option value="E-Rechnung">E-Rechnung</option>
+                            <option value="Online-Vertrieb">Online-Vertrieb / E-Commerce</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finanzierung">Finanzierung</option>
+                            <option value="Qualitätsmanagement">Qualitätsmanagement</option>
+                            <option value="Sonstiges">Sonstiges</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Section 2: Bewertung Berater -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">2</div>
+                        <h2 class="section-title">Bewertung des Beraters</h2>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <span class="rating-label">Fachkompetenz</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Fachkompetenz" id="fach1" value="1" required>
+                                <label for="fach1"><span class="number">1</span><span class="text">sehr gut</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Fachkompetenz" id="fach2" value="2">
+                                <label for="fach2"><span class="number">2</span><span class="text">gut</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Fachkompetenz" id="fach3" value="3">
+                                <label for="fach3"><span class="number">3</span><span class="text">befriedigend</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Fachkompetenz" id="fach4" value="4">
+                                <label for="fach4"><span class="number">4</span><span class="text">ausreichend</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Fachkompetenz" id="fach5" value="5">
+                                <label for="fach5"><span class="number">5</span><span class="text">mangelhaft</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Fachkompetenz" id="fach6" value="6">
+                                <label for="fach6"><span class="number">6</span><span class="text">ungenügend</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <span class="rating-label">Branchenerfahrung</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Branchenerfahrung" id="branch1" value="1" required>
+                                <label for="branch1"><span class="number">1</span><span class="text">sehr gut</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Branchenerfahrung" id="branch2" value="2">
+                                <label for="branch2"><span class="number">2</span><span class="text">gut</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Branchenerfahrung" id="branch3" value="3">
+                                <label for="branch3"><span class="number">3</span><span class="text">befriedigend</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Branchenerfahrung" id="branch4" value="4">
+                                <label for="branch4"><span class="number">4</span><span class="text">ausreichend</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Branchenerfahrung" id="branch5" value="5">
+                                <label for="branch5"><span class="number">5</span><span class="text">mangelhaft</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Branchenerfahrung" id="branch6" value="6">
+                                <label for="branch6"><span class="number">6</span><span class="text">ungenügend</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <span class="rating-label">Vermittlungskompetenz</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Vermittlungskompetenz" id="verm1" value="1" required>
+                                <label for="verm1"><span class="number">1</span><span class="text">sehr gut</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vermittlungskompetenz" id="verm2" value="2">
+                                <label for="verm2"><span class="number">2</span><span class="text">gut</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vermittlungskompetenz" id="verm3" value="3">
+                                <label for="verm3"><span class="number">3</span><span class="text">befriedigend</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vermittlungskompetenz" id="verm4" value="4">
+                                <label for="verm4"><span class="number">4</span><span class="text">ausreichend</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vermittlungskompetenz" id="verm5" value="5">
+                                <label for="verm5"><span class="number">5</span><span class="text">mangelhaft</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vermittlungskompetenz" id="verm6" value="6">
+                                <label for="verm6"><span class="number">6</span><span class="text">ungenügend</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Bewertung Beratungsinhalte -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">3</div>
+                        <h2 class="section-title">Bewertung der Beratungsinhalte</h2>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <span class="rating-label">Individuell auf meine Bedürfnisse zugeschnitten</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Individuell" id="ind1" value="1" required>
+                                <label for="ind1"><span class="number">1</span><span class="text">trifft voll zu</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Individuell" id="ind2" value="2">
+                                <label for="ind2"><span class="number">2</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Individuell" id="ind3" value="3">
+                                <label for="ind3"><span class="number">3</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Individuell" id="ind4" value="4">
+                                <label for="ind4"><span class="number">4</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Individuell" id="ind5" value="5">
+                                <label for="ind5"><span class="number">5</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Individuell" id="ind6" value="6">
+                                <label for="ind6"><span class="number">6</span><span class="text">gar nicht</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <span class="rating-label">Umsetzungsorientiert</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Umsetzungsorientiert" id="ums1" value="1" required>
+                                <label for="ums1"><span class="number">1</span><span class="text">trifft voll zu</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Umsetzungsorientiert" id="ums2" value="2">
+                                <label for="ums2"><span class="number">2</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Umsetzungsorientiert" id="ums3" value="3">
+                                <label for="ums3"><span class="number">3</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Umsetzungsorientiert" id="ums4" value="4">
+                                <label for="ums4"><span class="number">4</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Umsetzungsorientiert" id="ums5" value="5">
+                                <label for="ums5"><span class="number">5</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Umsetzungsorientiert" id="ums6" value="6">
+                                <label for="ums6"><span class="number">6</span><span class="text">gar nicht</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <span class="rating-label">Vertrauensvoll</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Vertrauensvoll" id="vert1" value="1" required>
+                                <label for="vert1"><span class="number">1</span><span class="text">trifft voll zu</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vertrauensvoll" id="vert2" value="2">
+                                <label for="vert2"><span class="number">2</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vertrauensvoll" id="vert3" value="3">
+                                <label for="vert3"><span class="number">3</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vertrauensvoll" id="vert4" value="4">
+                                <label for="vert4"><span class="number">4</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vertrauensvoll" id="vert5" value="5">
+                                <label for="vert5"><span class="number">5</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Vertrauensvoll" id="vert6" value="6">
+                                <label for="vert6"><span class="number">6</span><span class="text">gar nicht</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-group">
+                        <span class="rating-label">Beratungsziele wurden erfüllt</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Ziele_erfuellt" id="ziel1" value="1" required>
+                                <label for="ziel1"><span class="number">1</span><span class="text">trifft voll zu</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Ziele_erfuellt" id="ziel2" value="2">
+                                <label for="ziel2"><span class="number">2</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Ziele_erfuellt" id="ziel3" value="3">
+                                <label for="ziel3"><span class="number">3</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Ziele_erfuellt" id="ziel4" value="4">
+                                <label for="ziel4"><span class="number">4</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Ziele_erfuellt" id="ziel5" value="5">
+                                <label for="ziel5"><span class="number">5</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Ziele_erfuellt" id="ziel6" value="6">
+                                <label for="ziel6"><span class="number">6</span><span class="text">gar nicht</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Wirkung -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">4</div>
+                        <h2 class="section-title">Wirkung der Beratung</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Wurde Ihr unternehmerisches Wissen gestärkt?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-option">
+                                <input type="radio" name="Wissen_gestaerkt" id="wissenJa" value="Ja" required>
+                                <label for="wissenJa">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    Ja
+                                </label>
+                            </div>
+                            <div class="toggle-option">
+                                <input type="radio" name="Wissen_gestaerkt" id="wissenNein" value="Nein">
+                                <label for="wissenNein">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                    Nein
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Haben Sie aufgrund der Beratung betriebliche Maßnahmen...?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Massnahmen" id="massGeplant" value="geplant">
+                                <label for="massGeplant">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Geplant
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Massnahmen" id="massEingeleitet" value="eingeleitet">
+                                <label for="massEingeleitet">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Eingeleitet
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Massnahmen" id="massAbgeschlossen" value="bereits abgeschlossen">
+                                <label for="massAbgeschlossen">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Bereits abgeschlossen
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Massnahmen" id="massKeine" value="keine">
+                                <label for="massKeine">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Keine
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Welche Effekte hatte die Beratung auf Ihr Unternehmen?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Effekte" id="effProzesse" value="Prozessverbesserung">
+                                <label for="effProzesse">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Prozessabläufe verbessert
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Effekte" id="effUmsatz" value="Umsatzsteigerung">
+                                <label for="effUmsatz">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Umsatzsteigerung
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Effekte" id="effKosten" value="Kostensenkung">
+                                <label for="effKosten">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Kostensenkung
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Effekte" id="effQualitaet" value="Qualitätssicherung">
+                                <label for="effQualitaet">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Qualitätssicherung
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Effekte" id="effTech" value="Neue Technologien">
+                                <label for="effTech">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Neue Technologien eingeführt
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="Effekte" id="effKeine" value="Keine">
+                                <label for="effKeine">
+                                    <span class="check-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </span>
+                                    Keine
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Weiterempfehlung -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">5</div>
+                        <h2 class="section-title">Weiterempfehlung</h2>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <span class="rating-label">Würden Sie die Beratung weiterempfehlen?</span>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="Weiterempfehlung" id="empf1" value="1" required>
+                                <label for="empf1"><span class="number">1</span><span class="text">auf jeden Fall</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Weiterempfehlung" id="empf2" value="2">
+                                <label for="empf2"><span class="number">2</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Weiterempfehlung" id="empf3" value="3">
+                                <label for="empf3"><span class="number">3</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Weiterempfehlung" id="empf4" value="4">
+                                <label for="empf4"><span class="number">4</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Weiterempfehlung" id="empf5" value="5">
+                                <label for="empf5"><span class="number">5</span></label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="Weiterempfehlung" id="empf6" value="6">
+                                <label for="empf6"><span class="number">6</span><span class="text">eher nicht</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Feedback -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">6</div>
+                        <h2 class="section-title">Ihr Feedback</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="feedback">Was hat Ihnen besonders gut gefallen? Was können wir verbessern?</label>
+                        <textarea id="feedback" name="Feedback" placeholder="Ihr Feedback ist uns sehr wichtig..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span id="btnText">Bewertung absenden</span>
+                        <svg id="btnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                        <div class="spinner" id="spinner" style="display: none;"></div>
+                    </button>
+                    
+                    <div class="privacy-note">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span>Ihre Daten werden vertraulich behandelt und ausschließlich zur Qualitätsverbesserung unserer Beratungsleistungen verwendet. Eine Weitergabe an Dritte erfolgt nicht.</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Thomas Berg Consulting & Service | <a href="https://tbcs-beratung.de">www.tbcs-beratung.de</a></p>
+    </footer>
+
+    <script>
+        // Set redirect URL to current page with success parameter
+        document.getElementById('redirectUrl').value = window.location.href.split('?')[0] + '?success=true';
+        
+        // Check for success parameter on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                document.getElementById('surveyForm').classList.add('hidden');
+                document.getElementById('successMessage').classList.add('show');
+                // Remove success parameter from URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+
+        // Form submission handling
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+            const spinner = document.getElementById('spinner');
+            
+            btn.disabled = true;
+            btnText.textContent = 'Wird gesendet...';
+            btnIcon.style.display = 'none';
+            spinner.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
